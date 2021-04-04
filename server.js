@@ -53,28 +53,9 @@ function createSearch(request, response) {
     .then(apiResponse => apiResponse.body.items.map(bookResult => new Book(bookResult.volumeInfo)))
     .then(results => response.render('pages/searches/show', { searchResults: results }))
     .catch(error => response.status(500).send(`somthing wrong ${error}`));
-  // const search = request.body.search[0];
-  // let url = `https://www.googleapis.com/books/v1/volumes?q=${search}`;
-  // let url = `https://www.googleapis.com/books/v1/volumes?q=flowers+inauthor:`;
-
-  // console.log(url);
-  // console.log(request.body.search);
-  // superagent.get(url).then(data=> response.send(data.body.items));
-
-  // can we convert this to ternary?
-  // if (request.body.search[1] === 'title') { url += `+intitle:${request.body.search[0]}`; }
-  // if (request.body.search[1] === 'author') { url += `+inauthor:${request.body.search[0]}`; }
-
-  // superagent.get(url)
-  //   .then(apiResponse => apiResponse.body.items.map(bookResult => new Book(bookResult.volumeInfo)))
-  //   .then(results => response.render('pages/searches/show', { searchResults: results }));
-  // how will we handle errors?
-  // response.render('pages/searches/show');
-
 }
 
 function Book(info) {
-  // this.image = info.imageLinks.smallThumbnail ||'https://i.imgur.com/J5LVHEL.jpg';
   this.title = info.title || 'No title available'; // shortcircuit
   this.author = info.authors[0];
   this.description = info.description;
