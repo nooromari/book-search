@@ -16,9 +16,10 @@
     <main>
         <div>
         <% searchResults.forEach( book => { %>
-            <h3><%= book.title %></h3>
             <img src="<%= book.image %>" alt="">
+            <h3><%= book.title %></h3>
             <p><%= book.author %></p>
+            <p><%= book.description %></p>
         <% }) %>
     </div>
     </main>
