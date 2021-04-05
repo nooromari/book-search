@@ -13,6 +13,9 @@ const NODE_ENV = process.env.NODE_ENV;
 const options = NODE_ENV === 'production' ? { connectionString: DATABASE_URL, ssl: { rejectUnauthorized: false } } : { connectionString: DATABASE_URL };
 const client = new pg.Client(options);
 
+client.on('error', err => {
+  console.log('unable to connect database');
+});
 
 app.use(express.urlencoded({ extended: true }));
 app.use(express.static('public/styles'));
@@ -27,6 +30,8 @@ app.post('/searches', createSearch);
 
 app.get('*', (request, response) => response.status(404).send('This route does not exist'));
 
+client.connect().then(() => app.listen(PORT, () => console.log(`Listening on port: ${PORT}`)));
+
 function errorHandler(err, req, res, next) {
   if (res.headersSent) {
     return next(err);
@@ -35,10 +40,16 @@ function errorHandler(err, req, res, next) {
   res.render('pages/error', { error: err });
 }
 
-app.listen(PORT, () => console.log(`Listening on port: ${PORT}`));
 
 function renderHomePage(request, response) {
-  response.render('pages/index');
+  let SQL = 'SELECT * FROM books;';
+
+  return client.query(SQL)
+    .then(results =>{
+      return response.render('pages/index', { results: results.rows , count: results.rowCount});
+    })
+    .catch((error) => errorHandler(error, response));
+  // response.render('pages/index');
 }
 
 function showForm(request, response) {

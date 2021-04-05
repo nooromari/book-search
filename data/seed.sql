@@ -1,0 +1,5 @@
+INSERT INTO books (author, title, isbn, image_url, descriptions) 
+VALUES ('Carla Cat Journals','This Teacher Is Puurfect','9781441214348','http://books.google.com/books/content?id=VGuMzrqYyyAC&printsec=frontcover&img=1&zoom=5&edge=curl&source=gbs_api','Show your thanks to hardworking and under appreciated teachers with this 6 x 9 inches, 110 paged lined notebook/journal. This travel-friendly book is perfect for all your writing, drawing and doodling needs. Make this the gift to give to teachers for any occasion.');
+
+-- INSERT INTO books (author, title, isbn, image_url, descriptions)
+-- VALUES ('Senberdys Cat Publishing','This Boy Loves Balinese Cat Notebook','9781651737361','http://books.google.com/books/content?id=Y5YvzQEACAAJ&printsec=frontcover&img=1&zoom=5&source=gbs_api','This Notebook is designed for Cat owner and makes an excellent gift. Features: 6 x 9 inches (15.24 x 22.86 cm) good size for school, home and work. 100 pages ruled lined decorative . This Book belongs to page (Name, address, phone, email). Ideal for students, teachers or parents to use as a notebook for school and work. Perfect gift for anyone that loves Cats.');
