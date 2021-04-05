@@ -4,12 +4,21 @@ require('dotenv').config();
 
 const express = require('express');
 const superagent = require('superagent');
+const pg = require('pg');
 
 const app = express();
 const PORT = process.env.PORT || 3002;
+const DATABASE_URL= process.env.DATABASE_URL;
+const NODE_ENV = process.env.NODE_ENV;
+const options = NODE_ENV === 'production' ? { connectionString: DATABASE_URL, ssl: { rejectUnauthorized: false } } : { connectionString: DATABASE_URL };
+const client = new pg.Client(options);
+
+client.on('error', err => {
+  console.log('unable to connect database');
+});
 
 app.use(express.urlencoded({ extended: true }));
-app.use(express.static('public/styles'));
+app.use(express.static('public'));
 app.use(errorHandler);
 
 app.set('view engine', 'ejs');
@@ -18,21 +27,30 @@ app.set('view engine', 'ejs');
 app.get('/', renderHomePage);
 app.get('/searches/new', showForm);
 app.post('/searches', createSearch);
+// app.get('/books/:id', getOneBook);
 
 app.get('*', (request, response) => response.status(404).send('This route does not exist'));
 
-function errorHandler(err, req, res, next) {
-  if (res.headersSent) {
-    return next(err);
-  }
+client.connect().then(() => app.listen(PORT, () => console.log(`Listening on port: ${PORT}`)));
+
+function errorHandler(err, res) {
+  // if (res.headersSent) {
+  //   return next(err);
+  // }
   res.status(500);
   res.render('pages/error', { error: err });
 }
 
-app.listen(PORT, () => console.log(`Listening on port: ${PORT}`));
 
 function renderHomePage(request, response) {
-  response.render('pages/index');
+  let SQL = 'SELECT * FROM books;';
+
+  return client.query(SQL)
+    .then(results =>{
+      return response.render('pages/index', { results: results.rows , count: results.rowCount});
+    })
+    .catch((error) => errorHandler(error, response));
+  // response.render('pages/index');
 }
 
 function showForm(request, response) {
@@ -57,7 +75,20 @@ function createSearch(request, response) {
 
 function Book(info) {
   this.title = info.title || 'No title available'; // shortcircuit
-  this.author = info.authors[0];
-  this.description = info.description;
+  this.author = info.authors.join(', ') || 'No author available';
+  this.description = info.description || 'No description available';
   this.image = (info.imageLinks) ? info.imageLinks.smallThumbnail : 'https://i.imgur.com/J5LVHEL.jpg';
 }
+
+// function getOneBook(req,res){
+//   let SQL = 'SELECT * FROM books WHERE id=$1;';
+//   console.log(req.params);
+//   let values = [req.params.id];
+
+//   return client.query(SQL, values)
+//     .then(result => {
+//       // console.log('single', result.rows[0]);
+//       return res.render('pages/books/detail', { book: result.rows[0] });
+//     })
+//     .catch(err => errorHandler(err, res));
+// }
