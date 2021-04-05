@@ -18,7 +18,7 @@ client.on('error', err => {
 });
 
 app.use(express.urlencoded({ extended: true }));
-app.use(express.static('public/styles'));
+app.use(express.static('public'));
 app.use(errorHandler);
 
 app.set('view engine', 'ejs');
@@ -27,15 +27,16 @@ app.set('view engine', 'ejs');
 app.get('/', renderHomePage);
 app.get('/searches/new', showForm);
 app.post('/searches', createSearch);
+// app.get('/books/:id', getOneBook);
 
 app.get('*', (request, response) => response.status(404).send('This route does not exist'));
 
 client.connect().then(() => app.listen(PORT, () => console.log(`Listening on port: ${PORT}`)));
 
-function errorHandler(err, req, res, next) {
-  if (res.headersSent) {
-    return next(err);
-  }
+function errorHandler(err, res) {
+  // if (res.headersSent) {
+  //   return next(err);
+  // }
   res.status(500);
   res.render('pages/error', { error: err });
 }
@@ -78,3 +79,16 @@ function Book(info) {
   this.description = info.description || 'No description available';
   this.image = (info.imageLinks) ? info.imageLinks.smallThumbnail : 'https://i.imgur.com/J5LVHEL.jpg';
 }
+
+// function getOneBook(req,res){
+//   let SQL = 'SELECT * FROM books WHERE id=$1;';
+//   console.log(req.params);
+//   let values = [req.params.id];
+
+//   return client.query(SQL, values)
+//     .then(result => {
+//       // console.log('single', result.rows[0]);
+//       return res.render('pages/books/detail', { book: result.rows[0] });
+//     })
+//     .catch(err => errorHandler(err, res));
+// }
