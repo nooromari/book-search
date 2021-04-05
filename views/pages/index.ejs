@@ -1,12 +1,8 @@
 <!DOCTYPE html>
 <html lang="en">
-    <!-- <%- include('../layout/head') %> -->
+    <%- include('../layout/head') %>
 <body>
-    <!-- <header>
-        <nav>
-            <h1>Best Books!</h1>
-        </nav>
-    </header> -->
+<%- include('../layout/header') %>
     <main>
         <div>
         <% results.forEach( book => { %>
@@ -18,6 +14,7 @@
         <p><%= count %></p>
     </div>
     </main>
+    <%- include('../layout/footer')%>
 
 </body>
 </html>
