@@ -57,7 +57,7 @@ function createSearch(request, response) {
 
 function Book(info) {
   this.title = info.title || 'No title available'; // shortcircuit
-  this.author = info.authors[0];
-  this.description = info.description;
+  this.author = info.authors.join(', ') || 'No author available';
+  this.description = info.description || 'No description available';
   this.image = (info.imageLinks) ? info.imageLinks.smallThumbnail : 'https://i.imgur.com/J5LVHEL.jpg';
 }
