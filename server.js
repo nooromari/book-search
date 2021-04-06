@@ -28,17 +28,13 @@ app.get('/', renderHomePage);
 app.get('/searches/new', showForm);
 app.post('/searches', createSearch);
 app.get('/books/:id', getOneBook);
-// app.post('/books', addBook);
+app.post('/books', addBook);
 
 app.use('*', (request, response) => response.status(404).send('This route does not exist'));
 
 client.connect().then(() => app.listen(PORT, () => console.log(`Listening on port: ${PORT}`)));
 
 function errorHandler(err, res) {
-  // if (res.headersSent) {
-  //   return next(err);
-  // }
-  // console.log(err);
   res.status(500).render('pages/error', { error: 'somthing wrong' });
 }
 
@@ -65,13 +61,14 @@ function createSearch(request, response) {
   console.log(request.body.search);
 
   // can we convert this to ternary?
-  if (request.body.search[1] === 'title') { url += `+intitle:${request.body.search[0]}`; }
-  if (request.body.search[1] === 'author') { url += `+inauthor:${request.body.search[0]}`; }
+  // if (request.body.search[1] === 'title') { url += `+intitle:${request.body.search[0]}`; }
+  // if (request.body.search[1] === 'author') { url += `+inauthor:${request.body.search[0]}`; }
+  (request.body.search[1] === 'title')? url += `+intitle:${request.body.search[0]}` : url += `+inauthor:${request.body.search[0]}`;
 
   superagent.get(url)
     .then(apiResponse => apiResponse.body.items.map(bookResult => new Book(bookResult.volumeInfo)))
     .then(results => response.render('pages/searches/show', { searchResults: results }))
-    .catch(error => response.status(500).send(`somthing wrong ${error}`));
+    .catch(err => errorHandler(err, response));
 }
 
 function Book(info) {
@@ -95,12 +92,13 @@ function getOneBook(req,res){
     .catch(err => errorHandler(err, res));
 }
 
-// function addBook(req,res){
-//   console.log(req.body);
-//   const sql = 'INSERT INTO books (author,title,isbn,image_url,descriptions) VALUES ($1,$2,$3,$4,$5) RETURNING id;';
-//   const values = [];
-//   client.query(sql,values)
-//     .then(result =>{
-//       res.redirect(`/books/${result.rows[0].id}`);
-//     }).catch(err => errorHandler(err, res));
-// }
+function addBook(req,res){
+  console.log(req.body);
+  const data = req.body;
+  const sql = 'INSERT INTO books (author,title,isbn,image_url,descriptions) VALUES ($1,$2,$3,$4,$5) RETURNING id;';
+  const values = [data.author, data.title,data.isbn,data.image_url,data.descriptions];
+  client.query(sql,values)
+    .then(result =>{
+      res.redirect(`/books/${result.rows[0].id}`);
+    }).catch(err => errorHandler(err, res));
+}
