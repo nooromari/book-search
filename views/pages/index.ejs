@@ -4,14 +4,15 @@
 <body>
 <%- include('../layout/header') %>
     <main>
+        <p>BOOKS SAVED  <%= count %></p>
         <div>
         <% results.forEach( book => { %>
             <%- include('./books/detail',{book} )%>
+            <a href="/books/<%= book.id%>" >Show Details</a>
         <% }) %>
-        <p><%= count %></p>
     </div>
+
     </main>
     <%- include('../layout/footer')%>
-
 </body>
 </html>

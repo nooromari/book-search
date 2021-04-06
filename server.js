@@ -5,6 +5,7 @@ require('dotenv').config();
 const express = require('express');
 const superagent = require('superagent');
 const pg = require('pg');
+const methodOverride = require('method-override');
 
 const app = express();
 const PORT = process.env.PORT || 3002;
@@ -18,8 +19,9 @@ client.on('error', err => {
 });
 
 app.use(express.urlencoded({ extended: true }));
+app.use(methodOverride('_method'));
+
 app.use(express.static('public'));
-// app.use(errorHandler);
 
 app.set('view engine', 'ejs');
 
@@ -29,6 +31,8 @@ app.get('/searches/new', showForm);
 app.post('/searches', createSearch);
 app.get('/books/:id', getOneBook);
 app.post('/books', addBook);
+app.put('/books/:id', updateBook);
+app.delete('/books/:id', deleteBook);
 
 app.use('*', (request, response) => response.status(404).send('This route does not exist'));
 
@@ -47,7 +51,6 @@ function renderHomePage(request, response) {
       return response.render('pages/index', { results: results.rows , count: results.rowCount});
     })
     .catch((error) => errorHandler(error, response));
-  // response.render('pages/index');
 }
 
 function showForm(request, response) {
@@ -60,9 +63,6 @@ function createSearch(request, response) {
   console.log(request.body);
   console.log(request.body.search);
 
-  // can we convert this to ternary?
-  // if (request.body.search[1] === 'title') { url += `+intitle:${request.body.search[0]}`; }
-  // if (request.body.search[1] === 'author') { url += `+inauthor:${request.body.search[0]}`; }
   (request.body.search[1] === 'title')? url += `+intitle:${request.body.search[0]}` : url += `+inauthor:${request.body.search[0]}`;
 
   superagent.get(url)
@@ -101,4 +101,19 @@ function addBook(req,res){
     .then(result =>{
       res.redirect(`/books/${result.rows[0].id}`);
     }).catch(err => errorHandler(err, res));
+}
+
+function updateBook(req, res){
+
+  const SQL = `UPDATE books SET author=$1, title=$2, isbn=$3, image_url=$4, descriptions=$5 WHERE id=$6;`;
+  const id =  req.params.id;
+  const data = req.body;
+  const values = [data.author, data.title,data.isbn,data.image_url,data.descriptions,id];
+
+  client.query(SQL, values)
+    .then(res.redirect(`/books/${id}`)).catch(err => errorHandler(err, res));
+}
+
+function deleteBook(req,res){
+  res.send();
 }
