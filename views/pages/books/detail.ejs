@@ -1,13 +1,7 @@
-<!DOCTYPE html>
-<html lang="en">
-    <%- include('../layout/head') %>
-
-    <body>
-        <%- include('../layout/header') %>
-        <main>
-
-        </main>
-        <%- include('../layout/footer')%>
-    </body>
-
-</html>
+<section>
+    <img src="<%= book.image_url %>" alt="">
+    <h3><%= book.title %></h3>
+    <p><%= book.author %></p>
+    <p><%= book.descriptions %></p>
+    <p><%= book.isbn %></p>
+</section>

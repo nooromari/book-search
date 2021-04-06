@@ -1,13 +1,14 @@
 <!DOCTYPE html>
 <html lang="en">
-    <%- include('../layout/head') %>
+    <%- include('../../layout/head') %>
 
     <body>
-        <%- include('../layout/header') %>
+        <%- include('../../layout/header') %>
         <main>
+            <%- include('detail', {book})%>
 
         </main>
-        <%- include('../layout/footer')%>
+        <%- include('../../layout/footer')%>
     </body>
 
 </html>

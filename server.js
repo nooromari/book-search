@@ -28,6 +28,7 @@ app.get('/', renderHomePage);
 app.get('/searches/new', showForm);
 app.post('/searches', createSearch);
 app.get('/books/:id', getOneBook);
+app.post('/books', addBook);
 
 app.use('*', (request, response) => response.status(404).send('This route does not exist'));
 
@@ -87,8 +88,18 @@ function getOneBook(req,res){
 
   return client.query(SQL, values)
     .then(result => {
-      // console.log('single', result.rows[0]);
-      return res.render('pages/books/detail', { book: result.rows[0] });
+      console.log('single', result.rows[0]);
+      return res.render('pages/books/show', { book: result.rows[0] });
     })
     .catch(err => errorHandler(err, res));
+}
+
+function addBook(req,res){
+  console.log(req.body);
+  const sql = 'INSERT INTO books (author,title,isbn,image_url,descriptions) VALUES ($1,$2,$3,$4,$5) RETURNING id;';
+  const values = [];
+  client.query(sql,values)
+    .then(result =>{
+      res.redirect(`/books/${result.rows[0].id}`);
+    }).catch(err => errorHandler(err, res));
 }
