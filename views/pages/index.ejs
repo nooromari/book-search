@@ -6,10 +6,7 @@
     <main>
         <div>
         <% results.forEach( book => { %>
-            <img src="<%= book.image_url %>" alt="">
-            <h3><%= book.title %></h3>
-            <p><%= book.author %></p>
-            <p><%= book.descriptions %></p>
+            <%- include('./books/detail',{book} )%>
         <% }) %>
         <p><%= count %></p>
     </div>

@@ -28,7 +28,7 @@ app.get('/', renderHomePage);
 app.get('/searches/new', showForm);
 app.post('/searches', createSearch);
 app.get('/books/:id', getOneBook);
-app.post('/books', addBook);
+// app.post('/books', addBook);
 
 app.use('*', (request, response) => response.status(404).send('This route does not exist'));
 
@@ -76,9 +76,10 @@ function createSearch(request, response) {
 
 function Book(info) {
   this.title = info.title || 'No title available'; // shortcircuit
-  this.author = info.authors.join(', ') || 'No author available';
-  this.description = info.description || 'No description available';
-  this.image = (info.imageLinks) ? info.imageLinks.smallThumbnail : 'https://i.imgur.com/J5LVHEL.jpg';
+  this.author = (info.authors)? info.authors.join(', ') : 'No author available';
+  this.descriptions = info.description || 'No description available';
+  this.image_url = (info.imageLinks) ? info.imageLinks.smallThumbnail : 'https://i.imgur.com/J5LVHEL.jpg';
+  this.isbn = (info.industryIdentifiers && info.industryIdentifiers[0].identifier) ? info.industryIdentifiers[0].identifier : 'No ISBN available' ;
 }
 
 function getOneBook(req,res){
@@ -94,12 +95,12 @@ function getOneBook(req,res){
     .catch(err => errorHandler(err, res));
 }
 
-function addBook(req,res){
-  console.log(req.body);
-  const sql = 'INSERT INTO books (author,title,isbn,image_url,descriptions) VALUES ($1,$2,$3,$4,$5) RETURNING id;';
-  const values = [];
-  client.query(sql,values)
-    .then(result =>{
-      res.redirect(`/books/${result.rows[0].id}`);
-    }).catch(err => errorHandler(err, res));
-}
+// function addBook(req,res){
+//   console.log(req.body);
+//   const sql = 'INSERT INTO books (author,title,isbn,image_url,descriptions) VALUES ($1,$2,$3,$4,$5) RETURNING id;';
+//   const values = [];
+//   client.query(sql,values)
+//     .then(result =>{
+//       res.redirect(`/books/${result.rows[0].id}`);
+//     }).catch(err => errorHandler(err, res));
+// }

@@ -1,19 +1,22 @@
 <!DOCTYPE html>
 <html lang="en">
-    <%- include('../../layout/head')%>
-<body>
-    <%- include('../../layout/header')%>
-    <main>
-        <div>
-        <% searchResults.forEach( book => { %>
-            <img src="<%= book.image %>" alt="">
-            <h3><%= book.title %></h3>
-            <p><%= book.author %></p>
-            <p><%= book.description %></p>
-        <% }) %>
-    </div>
-    </main>
-    <%- include('../../layout/footer')%>
-</body>
-</html>
+<%- include('../../layout/head')%>
 
+    <body>
+        <%- include('../../layout/header')%>
+            <main>
+                <div>
+                    <% searchResults.forEach( book=> { %>
+                        <%- include('../books/detail',{book} )%>
+                            <% }) %>
+                </div>
+
+                <form action="/books" method="post">
+
+                    <button>Save to list</button>
+                </form>
+            </main>
+            <%- include('../../layout/footer')%>
+    </body>
+
+</html>
