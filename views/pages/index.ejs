@@ -7,8 +7,10 @@
         <p>BOOKS SAVED  <%= count %></p>
         <div>
         <% results.forEach( book => { %>
-            <%- include('./books/detail',{book} )%>
-            <a href="/books/<%= book.id%>" >Show Details</a>
+            <img src="<%= book.image_url %>" alt="">
+            <h3><%= book.title %></h3>
+            <p><%= book.author %></p>
+            <a href="/books/<%= book.id%>" class="showbt" >Show Details</a>
         <% }) %>
     </div>
 

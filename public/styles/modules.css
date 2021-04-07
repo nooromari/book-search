@@ -1,3 +1,45 @@
 @import url(reset.css);
 @import url(base.css);
 @import url(layout.css);
+
+
+h1{
+    color: white;
+    background-color: black;
+    /* text-align: center; */
+    font-size: 3em;
+}
+h1:hover{
+    color: grey;
+}
+button:hover{
+    background-color: grey;
+}
+
+a{
+    text-decoration: none;
+    color: white;
+    font-size: large;
+ 
+}
+li{
+    display: inline-block;
+    border: 1px solid black;
+    background-color: black;
+    padding: 5px;
+    margin: 20px;
+}
+.showbt{
+    border: black solid 1px;
+    background-color: rgb(92, 91, 91);
+    text-align: center;
+}
+/* .search{
+    width: 75%;
+    height: 50px;
+    border-radius: 5px;
+}
+.disc{
+    font-size: 2em;
+    background-color: rgb(230, 230, 230);
+} */
