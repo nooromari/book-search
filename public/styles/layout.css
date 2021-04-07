@@ -1,2 +1,67 @@
 /* for mobile */
 
+body{
+
+}
+
+main {
+    width: 50%;
+    margin-left: auto;
+    margin-right: auto;
+    /* background-color: rgb(219, 219, 219); */
+    height: 80vh;
+    font-size: 1rem;
+}
+form {
+    margin: 0 auto;
+    margin-top: 5vh;
+    text-align: center;
+  }
+  .check {
+    margin: 3vh auto;
+    width: 75%;
+    height: 50px;
+    border-radius: 5px;
+    background-color: rgb(110, 110, 110);
+  }
+  .inputText{
+    margin: 3vh auto;
+    width: 75%;
+    height: 50px;
+    border-radius: 5px;
+}
+  form button {
+    width: 75%;
+    height: 50px;
+    background-color: black;
+    color: white;
+  }
+  
+  main img {
+    /* width: 100%; */
+    height: 100%;
+    margin: 5vh 20%;
+  }
+  ul{
+    display: flex;
+    justify-content:left;
+    margin-top: 50px;
+}
+footer{
+    text-align: center;
+    background-color: black;
+    color: white;
+    padding: 10px;
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+}
+
+h1{
+    width: 100%;
+    position: fixed;
+    top: 0%;
+}
+.discrip{
+    height: 200px;
+}

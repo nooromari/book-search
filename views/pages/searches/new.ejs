@@ -7,14 +7,14 @@
     <main>
         <h4>Search by Title or Author</h4>
         <form action="/searches" method="post">
-          <input type="text" name="search" placeholder="Enter a title or author" required>
-          <fieldset>
+          <input type="text"  class="inputText" name="search" placeholder="Enter a title or author" required>
+          <fieldset class="check">
             <label for="title">
               <span>Title</span>
-              <input type="radio" name="search" value="title" required>
+              <input  type="radio" name="search" value="title" required>
             </label>
           </fieldset>
-          <fieldset>
+          <fieldset class="check">
             <label for="author">
               <span>Author</span>
               <input type="radio" name="search" value="author" required>
