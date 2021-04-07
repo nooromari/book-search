@@ -1,23 +1,18 @@
 <!DOCTYPE html>
 <html lang="en">
-    <!-- <%- include('../layout/head') %> -->
+    <%- include('../layout/head') %>
 <body>
-    <!-- <header>
-        <nav>
-            <h1>Best Books!</h1>
-        </nav>
-    </header> -->
+<%- include('../layout/header') %>
     <main>
+        <p>BOOKS SAVED  <%= count %></p>
         <div>
         <% results.forEach( book => { %>
-            <img src="<%= book.image_url %>" alt="">
-            <h3><%= book.title %></h3>
-            <p><%= book.author %></p>
-            <p><%= book.descriptions %></p>
+            <%- include('./books/detail',{book} )%>
+            <a href="/books/<%= book.id%>" >Show Details</a>
         <% }) %>
-        <p><%= count %></p>
     </div>
-    </main>
 
+    </main>
+    <%- include('../layout/footer')%>
 </body>
 </html>

@@ -1,31 +1,28 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="/modules.css">
-    <title>show page</title>
-</head>
-<body>
-    <header>
-        <nav>
-            <h1>Best Books!</h1>
-        </nav>
-    </header>
-    <main>
-        <div>
-        <% searchResults.forEach( book => { %>
-            <img src="<%= book.image %>" alt="">
-            <h3><%= book.title %></h3>
-            <p><%= book.author %></p>
-            <p><%= book.description %></p>
-        <% }) %>
-    </div>
-    </main>
-    <footer>
+<%- include('../../layout/head')%>
 
-    </footer>
-</body>
+    <body>
+        <%- include('../../layout/header')%>
+            <main>
+                <div>
+                    <% searchResults.forEach( book=> { %>
+                        <%- include('../books/detail',{book} )%>
+                        <form action="/books" method="post">
+                            
+                            <input type="hidden" name="title" value="<%= book.title%>">
+                            <input type="hidden" name="author" value="<%= book.author%>">
+                            <input type="hidden" name="descriptions" value="<%= book.descriptions%>">
+                            <input type="hidden" name="image_url" value="<%= book.image_url%>">
+                            <input type="hidden" name="isbn" value="<%= book.isbn%>">
+        
+                            <button>Save to list</button>
+                        </form>
+                            <% }) %>
+                </div>
+
+            </main>
+            <%- include('../../layout/footer')%>
+    </body>
+
 </html>
-

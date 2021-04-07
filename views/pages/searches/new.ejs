@@ -1,18 +1,9 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="/modules.css">
-    <title>new page</title>
-</head>
+<%- include('../../layout/head')%>
 <body>
-    <header>
-        <nav>
-            <h1>Best Books!</h1>
-        </nav>
-    </header>
+  <%- include('../../layout/header')%>
+
     <main>
         <h4>Search by Title or Author</h4>
         <form action="/searches" method="post">
@@ -32,8 +23,6 @@
           <button type="submit">Search the Google Books API</button>
         </form>
     </main>
-    <footer>
-
-    </footer>
+    <%- include('../../layout/footer')%>
 </body>
 </html>
