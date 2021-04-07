@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="en">
+    <%- include('../../layout/head', {page_title: 'update'}) %>
+
+    <body>
+        <%- include('../../layout/header') %>
+        <main>
+            <form action="/books/<%= book.id%>?_method=PUT" method="post">
+            
+            <%- include('edit', {book: book, type: 'text'})%>
+            <button>Save Update</button>
+            </form>
+        </main>
+        <%- include('../../layout/footer')%>
+    </body>
+
+</html>

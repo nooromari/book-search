@@ -1,16 +1,24 @@
 <!DOCTYPE html>
 <html lang="en">
-<%- include('../../layout/head') %>
+<%- include('../../layout/head', {page_title: 'show book'}) %>
 
     <body>
         <%- include('../../layout/header') %>
             <main>
                 <%- include('detail', {book})%>
+
                     <!-- <a href="/sea"></a> -->
-                    <form action="/books/<%= book.id%>?_method=PUT" method="post">
-                        <%- include('edit', {book})%>
+                    <form action="/update/<%= book.id%>?_method=PUT" method="post">
+                        
                         <button>Update Details</button>
                     </form>
+
+                    <form action="/books/<%= book.id%>?_method=Delete" method="post">
+                        
+                        <button>Delete the book</button>
+                    </form>
+                    
+                    <!-- <a href="/update">Update Details</a> -->
 
             </main>
             <%- include('../../layout/footer')%>

@@ -1,6 +1,7 @@
 # book-search
 
-**Author**: Noor AL-Omari
+**Author**: Eid sukariah collaborate with Noor AL-omari and help each others to solve this lab.
+
 **Version**: 1.0.0 
 
 ## Overview
@@ -15,4 +16,3 @@
 
 - languages: JS , SQL , HTML
 - libraries: Express , dotenv , ejs , pg , superagent , method-override
-

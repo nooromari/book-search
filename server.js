@@ -33,6 +33,7 @@ app.get('/books/:id', getOneBook);
 app.post('/books', addBook);
 app.put('/books/:id', updateBook);
 app.delete('/books/:id', deleteBook);
+app.put('/update/:id', update);
 
 app.use('*', (request, response) => response.status(404).send('This route does not exist'));
 
@@ -115,5 +116,21 @@ function updateBook(req, res){
 }
 
 function deleteBook(req,res){
-  res.send();
+  const id =[req.params.id];
+    let sql = `DELETE FROM books WHERE id=$1`;
+    client.query(sql,id).then(res.redirect('/'))
+    .catch(err => errorHandler(err, res));
+}
+
+function update(req, res){
+  let SQL = 'SELECT * FROM books WHERE id=$1;';
+  // console.log(req.params);
+  let values = [req.params.id];
+
+  return client.query(SQL, values)
+    .then(result => {
+      console.log('single', result.rows[0]);
+      return res.render('pages/books/update', { book: result.rows[0] });
+    })
+    .catch(err => errorHandler(err, res));
 }
